@@ -92,12 +92,11 @@ try
         $cloudbaseInitPath = "c:\cloudbase.msi"
         $cloudbaseInitLog = "$ENV:Temp\cloudbase_init.log"
         $serialPortName = @(Get-WmiObject Win32_SerialPort)[0].DeviceId
-        $p = Start-Process -Wait -PassThru -FilePath msiexec -ArgumentList "/i $cloudbaseInitPath /qn /norestart /l*v $cloudbaseInitLog LOGGINGSERIALPORTNAME=$serialPortName"
+        $p = Start-Process -Wait -PassThru -FilePath msiexec -ArgumentList "/i $cloudbaseInitPath /qn /norestart /l*v $cloudbaseInitLog LOGGINGSERIALPORTNAME=$serialPortName RUN_SERVICE_AS_LOCAL_SYSTEM=1"
         if ($p.ExitCode -ne 0)
         {
             throw "Installing $cloudbaseInitPath failed. Log: $cloudbaseInitLog"
         }
-
         if (Test-Path -Path "E:\cloudbase\cloudbase_init.zip")
         {
             Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -107,7 +106,7 @@ try
             Remove-Item -Recurse -Force "$ENV:ProgramFiles\Cloudbase Solutions\Cloudbase-Init\Python\Lib\site-packages\cloudbaseinit"
             Copy-Item -Recurse -Path "$ENV:TEMP\cloudbase-init\cloudbaseinit" -Destination "$ENV:ProgramFiles\Cloudbase Solutions\Cloudbase-Init\Python\Lib\site-packages\"
         }
-
+        Set-Service -Name "cloudbase-init" -StartupType "Automatic"
     	# install virtio drivers
         certutil -addstore "TrustedPublisher" A:/rh.cer
     	[Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
@@ -140,7 +139,6 @@ try
         $Host.UI.RawUI.WindowTitle = "Running Sysprep..."
         $unattendedXmlPath = "$ENV:ProgramFiles\Cloudbase Solutions\Cloudbase-Init\conf\Unattend.xml"
         & "$ENV:SystemRoot\System32\Sysprep\Sysprep.exe" `/generalize `/oobe `/shutdown `/unattend:"$unattendedXmlPath"
-        stop-computer
     
 }
 catch

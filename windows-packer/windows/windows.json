@@ -3,7 +3,7 @@
     "builders": [{
         "type": "qemu",
         "iso_url": "iso/win2016.iso",
-        "iso_checksum_type": "none",
+        "iso_checksum": "none",
         "communicator": "none",
         "accelerator" : "kvm",
      "floppy_files": ["./http/Autounattend.xml",
@@ -22,6 +22,7 @@
         "headless": false,
         "memory": 30000,
         "net_device": "e1000",
+        "net_bridge" : "virbr0",
         "machine_type" : "q35",
         "vnc_bind_address" : "0.0.0.0",
         "http_directory": "http",
@@ -47,10 +48,7 @@
                 "mount -t ntfs ${nbd}p3 $TMP_DIR",
                 "mkdir -p $TMP_DIR/curtin",
                 "cp curtin/* $TMP_DIR/curtin/.",
-                "cp -r ./http/cloudbase-init $TMP_DIR/.",
-                "unzip $TMP_DIR/cloudbase-init/cloudbase_init.zip -d $TMP_DIR/'Program Files'/'Cloudbase Solutions'/Cloudbase-Init/",
                 "sync -f $TMP_DIR/curtin",
-                "sync -f $TMP_DIR/cloudbase-init",
                 "umount $TMP_DIR",
                 "qemu-nbd -d $nbd",
                 "rmdir $TMP_DIR"
