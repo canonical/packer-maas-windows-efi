@@ -2,7 +2,7 @@
 
     "builders": [{
         "type": "qemu",
-        "iso_url": "iso/win2016.iso",
+        "iso_url": "../../../../../iso/win2016-serial.iso",
         "iso_checksum": "none",
         "communicator": "none",
         "accelerator" : "kvm",
@@ -21,6 +21,7 @@
         "disk_size": "15G",
         "headless": false,
         "memory": 30000,
+        "cpus": 4,
         "net_device": "e1000",
         "net_bridge" : "virbr0",
         "machine_type" : "q35",
