@@ -2,7 +2,7 @@
 
     "builders": [{
         "type": "qemu",
-        "iso_url": "iso/win2016.iso",
+        "iso_url": "./win2019.iso",
         "iso_checksum": "none",
         "communicator": "none",
         "accelerator" : "kvm",
@@ -21,14 +21,14 @@
         "disk_size": "15G",
         "headless": false,
         "memory": 30000,
+        "cpus": 4,
         "net_device": "e1000",
         "net_bridge" : "virbr0",
-        "machine_type" : "q35",
+        "machine_type": "q35",
         "vnc_bind_address" : "0.0.0.0",
         "http_directory": "http",
         "qemuargs": [
-            ["-serial", "stdio"],
-            ["-bios", "/usr/share/edk2-ovmf/x64/OVMF_CODE.fd"]
+            ["-serial", "stdio"]
         ],
                     "shutdown_timeout": "45m"
 
@@ -45,7 +45,7 @@
                 "source ../scripts/setup-nbd",
                 "TMP_DIR=$(mktemp -d /tmp/packer-maas-XXXX)",
                 "echo 'Adding curtin-hooks to image...'",
-                "mount -t ntfs ${nbd}p3 $TMP_DIR",
+                "mount -t ntfs ${nbd}p2 $TMP_DIR",
                 "mkdir -p $TMP_DIR/curtin",
                 "cp curtin/* $TMP_DIR/curtin/.",
                 "sync -f $TMP_DIR/curtin",

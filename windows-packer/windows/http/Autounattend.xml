@@ -9,32 +9,28 @@
  		        	<CreatePartitions>
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
-                            <Size>100</Size>
-                            <Type>EFI</Type>
-                        </CreatePartition>
-                        <CreatePartition wcm:action="add">
-                            <Order>2</Order>
-                            <Size>128</Size>
-                            <Type>MSR</Type>
+                            <Size>300</Size>
+                            <Type>Primary</Type>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Extend>true</Extend>
-                            <Order>3</Order>
+                            <Order>2</Order>
                             <Type>Primary</Type>
                         </CreatePartition>
                     </CreatePartitions>
                     <ModifyPartitions>
                         <ModifyPartition wcm:action="add">
-                            <Label>EFI</Label>
-                            <Format>FAT32</Format>
+                            <Label>System</Label>
+                            <Format>NTFS</Format>
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
+                            <Active>true</Active>
                         </ModifyPartition>
                         <ModifyPartition wcm:action="add">
                             <Format>NTFS</Format>
                             <Order>2</Order>
-                            <PartitionID>3</PartitionID>
-                            <Label>System</Label>
+                            <PartitionID>2</PartitionID>
+                            <Label>C</Label>
                         </ModifyPartition>
                     </ModifyPartitions>
                     <DiskID>0</DiskID>
@@ -46,7 +42,7 @@
                 <OSImage>
                     <InstallTo>
  		 
-                        <PartitionID>3</PartitionID>
+                        <PartitionID>2</PartitionID>
                         <DiskID>0</DiskID>
                  
                     </InstallTo>
